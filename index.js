@@ -5,7 +5,7 @@ const { Telegraf } = require('telegraf');
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 bot.command('start', ctx => {
-    bot.telegram.sendMessage(ctx.chat.id, 'Привет, что тебя интересует ?',
+    bot.telegram.sendMessage(ctx.chat.id, `Привет, ${ctx.message.from.first_name}. что тебя интересует ?`,
     {
         reply_markup: {
             inline_keyboard: [
