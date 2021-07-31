@@ -1,0 +1,104 @@
+require('dotenv').config();
+const { Telegraf } = require('telegraf');
+
+
+const bot = new Telegraf(process.env.BOT_TOKEN);
+
+bot.command('start', ctx => {
+    bot.telegram.sendMessage(ctx.chat.id, 'Привет, что тебя интересует ?',
+    {
+        reply_markup: {
+            inline_keyboard: [
+                [
+                    { text: 'Узнать про что-то', callback_data: 'test' }
+                ],
+                [
+                    { text: 'Обратная связь', url: 'https://vk.com/semen0510' }
+                ],
+                [
+                    { text: 'Наш сайт', url: 'https://vk.com/semen0510' }
+                ],
+                [
+                    { text: 'Информация', callback_data: 'info' }
+                ]
+            ]
+        }
+    })
+})
+
+bot.action('test', ctx => {
+    ctx.answerCbQuery();
+    bot.telegram.sendMessage(ctx.chat.id, 'Тут будет какая-то информация о чем-то конкретном')
+})
+
+
+bot.action('info', ctx => {
+    ctx.answerCbQuery();
+    bot.telegram.sendMessage(ctx.chat.id, 'Информация', {
+        reply_markup: {
+            keyboard: [
+                [
+                    { text: 'Как заказать что-либо' }
+                ],
+                [
+                    { text: 'Как оплатить что-либо' },
+                ]
+            ],
+            resize_keyboard: true,
+            one_time_keyboard: true,
+        }
+    })
+})
+
+
+bot.hears('Как заказать что-либо', ctx => {
+    bot.telegram.sendMessage(ctx.chat.id, 'Выбери то, что вас интересует', {
+        reply_markup: {
+            keyboard: [
+                [
+                    { text: 'Вариант 1' },
+                    { text: 'Вариант 2' },
+                ]
+            ],
+            resize_keyboard: true,
+            one_time_keyboard: true,
+        }
+    })
+})
+
+bot.hears('Вариант 1', ctx => {
+    bot.telegram.sendMessage(ctx.chat.id, 'Ответ на вопрос 1');
+})
+
+bot.hears('Вариант 2', ctx => {
+    bot.telegram.sendMessage(ctx.chat.id, 'Ответ на вопрос 2');
+})
+
+
+
+bot.hears('Как оплатить что-либо', ctx => {
+    bot.telegram.sendMessage(ctx.chat.id, 'Выбери то, что вас интересует', {
+        reply_markup: {
+            keyboard: [
+                [
+                    { text: 'Вариант 1.1' },
+                    { text: 'Вариант 2.2' },
+                ]
+            ],
+            resize_keyboard: true,
+            one_time_keyboard: true,
+        }
+    })
+})
+
+bot.hears('Вариант 1.1', ctx => {
+    bot.telegram.sendMessage(ctx.chat.id, 'Ответ на вопрос 1.1');
+})
+
+bot.hears('Вариант 2.2', ctx => {
+    bot.telegram.sendMessage(ctx.chat.id, 'Ответ на вопрос 2.2');
+})
+
+
+bot.launch();
+console.log('Бот запущен');
