@@ -114,6 +114,17 @@ bot.hears('Вариант 2.2', ctx => {
     bot.telegram.sendMessage(ctx.chat.id, 'Ответ на вопрос 2.2');
 })
 
+bot.hears('Тест рассылки', ctx => {
+    if (ctx.message.from.id === '424446979') {
+        User.find()
+        .then((users) => {
+            users.forEach(() => {
+                bot.telegram.sendMessage(ctx.chat.id, 'Тест рассылки');
+            })
+        })
+    }
+})
+
 
 bot.launch();
 console.log('Бот запущен');
