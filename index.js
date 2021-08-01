@@ -5,7 +5,7 @@ const regexp = require('regexp');
 const reg = regexp('[a-z]+')
 const User = require('./models');
 
-mongoose.connect(process.env.MONGO_URL)
+mongoose.connect('mongodb+srv://andrew:sosok228@cluster0.rxwip.mongodb.net/test')
 .then(() => {
     console.log('Успешно подключено');
 })
