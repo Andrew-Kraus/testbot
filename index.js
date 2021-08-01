@@ -3,7 +3,7 @@ const { Telegraf } = require('telegraf');
 const mongoose = require('mongoose');
 const User = require('./models');
 
-mongoose.connect('mongodb://localhost:27017/tgbot')
+mongoose.connect('mongodb+srv://andrew:<password>@cluster0.rxwip.mongodb.net/test')
 .then(() => {
     console.log('Успешно подключено');
 })
