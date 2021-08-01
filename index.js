@@ -1,9 +1,11 @@
 require('dotenv').config();
 const { Telegraf } = require('telegraf');
 const mongoose = require('mongoose');
+const regexp = require('regexp');
+const reg = regexp('[a-z]+')
 const User = require('./models');
 
-mongoose.connect('mongodb+srv://andrew:sosok228@cluster0.rxwip.mongodb.net/test')
+mongoose.connect(process.env.MONGO_URL)
 .then(() => {
     console.log('Успешно подключено');
 })
@@ -114,16 +116,18 @@ bot.hears('Вариант 2.2', ctx => {
     bot.telegram.sendMessage(ctx.chat.id, 'Ответ на вопрос 2.2');
 })
 
-bot.hears('Тест рассылки', ctx => {
-    if (ctx.message.from.id === '424446979') {
+bot.on('message', ctx => {
+    if (ctx.message.from.id === 424446979) {
         User.find()
         .then((users) => {
-            users.forEach(() => {
-                bot.telegram.sendMessage(ctx.chat.id, 'Тест рассылки');
+            users.forEach((user) => {
+                bot.telegram.sendMessage(user.id, ctx.message.text);
             })
         })
+        .catch((err) => console.log(err));
     }
 })
+
 
 
 bot.launch();
