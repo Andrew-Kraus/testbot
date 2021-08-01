@@ -1,10 +1,25 @@
 require('dotenv').config();
 const { Telegraf } = require('telegraf');
+const mongoose = require('mongoose');
+const User = require('./models');
 
+mongoose.connect('mongodb://localhost:27017/tgbot')
+.then(() => {
+    console.log('Успешно подключено');
+})
+.catch((err) => {
+    console.log(err);
+})
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
+
 bot.command('start', ctx => {
+    const id = ctx.message.from.id;
+    const name = ctx.message.from.first_name;
+    User.init().then(() => {
+        User.create({ id, name })
+    })
     bot.telegram.sendMessage(ctx.chat.id, `Привет, ${ctx.message.from.first_name}. что тебя интересует ?`,
     {
         reply_markup: {
